@@ -1,0 +1,26 @@
+adr "0010" "Use Clean Architecture for writes"
+
+component "Domain"         = "CompanyName.MyMeetings.Modules.*.Domain.."
+component "Application"    = "CompanyName.MyMeetings.Modules.*.Application.."
+component "Infrastructure" = "CompanyName.MyMeetings.Modules.*.Infrastructure.."
+component "API"            = "CompanyName.MyMeetings.API.."
+
+rule "domain_is_inner" {
+  Domain must only depend_on Domain
+  severity error
+}
+
+rule "application_only_inward" {
+  Application must only depend_on Application, Domain
+  severity error
+}
+
+rule "infrastructure_only_inward" {
+  Infrastructure must only depend_on Infrastructure, Application, Domain
+  severity error
+}
+
+rule "api_does_not_depend_on_domain_or_infra" {
+  API must only depend_on API, Application
+  severity warning
+}

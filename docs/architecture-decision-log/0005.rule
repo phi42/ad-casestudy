@@ -1,0 +1,12 @@
+adr "0005" "Create one REST API module"
+
+rule "single_api_project_exists" {
+  path "src/API/**/CompanyName.MyMeetings.API.csproj" must exist
+  severity error
+}
+
+rule "no_module_api_projects" {
+  # ensure there are no separate API projects inside modules
+  path "src/Modules/**/**API**.csproj" must not exist
+  severity warning
+}

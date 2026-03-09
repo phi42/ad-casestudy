@@ -1,0 +1,12 @@
+adr "0015" "Use In-Memory Events Bus"
+
+rule "inmemory_eventbus_exists" {
+  path "src/BuildingBlocks/Infrastructure/EventBus/InMemoryEventBus.cs" must exist
+  severity error
+}
+
+rule "no_external_broker_packages" {
+  # coarse but useful: forbid common broker libs in source tree
+  path "src/**/*.csproj" must not contain "regex:RabbitMQ|MassTransit|NServiceBus"
+  severity warning
+}

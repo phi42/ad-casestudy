@@ -13,10 +13,32 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
+      
+      # Generate architecture tests from ADR rules
+      - name: Generate ADE Architecture Tests
+        run: |
+          echo "Generating architecture tests from ADR rules..."
+          chmod +x ./ade.exe 2>/dev/null || true
+          
+          # Generate tests for all rule files
+          for rule in ./docs/architecture-decision-log/*.rule; do
+            if [ -f "$rule" ]; then
+              echo "  Processing: $rule"
+              ./ade.exe compile -i "$rule" -o ./rules -p csharp
+            fi
+          done
+          
+          # Copy generated tests to ArchTests project
+          mkdir -p ./src/Tests/ArchTests/Generated
+          cp ./rules/*.g.cs ./src/Tests/ArchTests/Generated/ 2>/dev/null || true
+          
+          echo "[OK] Generated $(ls -1 ./src/Tests/ArchTests/Generated/*.g.cs 2>/dev/null | wc -l) test files"
+      
       - name: Run build
         run: ./build.sh BuildAndUnitTests --configuration Release
 
