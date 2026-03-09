@@ -23,14 +23,24 @@ jobs:
       # Generate architecture tests from ADR rules
       - name: Generate ADE Architecture Tests
         run: |
+          echo "Setting up ADE tool and plugins..."
+          
+          # Make binaries executable
+          chmod +x bin/linux/ade
+          chmod +x bin/linux/plugins/*
+          
+          # Install plugins to expected location
+          mkdir -p ~/.ad-enforcement/plugins
+          cp bin/linux/plugins/csharp ~/.ad-enforcement/plugins/
+          cp bin/linux/plugins/arch-go ~/.ad-enforcement/plugins/
+          
           echo "Generating architecture tests from ADR rules..."
-          chmod +x ./ade.exe 2>/dev/null || true
           
           # Generate tests for all rule files
           for rule in ./docs/architecture-decision-log/*.rule; do
             if [ -f "$rule" ]; then
               echo "  Processing: $rule"
-              ./ade.exe compile -i "$rule" -o ./rules -p csharp
+              ./bin/linux/ade compile -i "$rule" -o ./rules -p csharp
             fi
           done
           
