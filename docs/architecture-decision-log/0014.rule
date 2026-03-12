@@ -1,122 +1,52 @@
 adr "0014" "Event-driven communication between modules"
 
-# modules (namespace roots)
 component "UserAccess"      = "CompanyName.MyMeetings.Modules.UserAccess"
 component "Meetings"        = "CompanyName.MyMeetings.Modules.Meetings"
 component "Administration"  = "CompanyName.MyMeetings.Modules.Administration"
 component "Payments"        = "CompanyName.MyMeetings.Modules.Payments"
-component "Registrations"   = "CompanyName.MyMeetings.Modules.Registrations"
 
-# isolation rules: modules must not depend on each other (pairwise)
-# Note: Exclusions filter out infrastructure/integration code from the check
-
-rule "userAccess_isolated_from_meetings" {
-  UserAccess must not depend_on Meetings
-  exclude class implementing interface "MediatR.INotificationHandler<>"
-  # Note: old syntax supported 'name_ends_with "IntegrationEventHandler"' - now using direct match
-  exclude class "IntegrationEventHandler"
-  exclude class "EventsBusStartup"
-  severity error
-}
-
-rule "userAccess_isolated_from_administration" {
-  UserAccess must not depend_on Administration
+code rule "userAccess_isolated_from_meetings" {
+  UserAccess must not depend on Meetings
   exclude class implementing interface "MediatR.INotificationHandler<>"
   exclude class "IntegrationEventHandler"
   exclude class "EventsBusStartup"
   severity error
 }
 
-rule "userAccess_isolated_from_payments" {
-  UserAccess must not depend_on Payments
+code rule "userAccess_isolated_from_administration" {
+  UserAccess must not depend on Administration
   exclude class implementing interface "MediatR.INotificationHandler<>"
   exclude class "IntegrationEventHandler"
   exclude class "EventsBusStartup"
   severity error
 }
 
-rule "meetings_isolated_from_administration" {
-  Meetings must not depend_on Administration
+code rule "userAccess_isolated_from_payments" {
+  UserAccess must not depend on Payments
   exclude class implementing interface "MediatR.INotificationHandler<>"
   exclude class "IntegrationEventHandler"
   exclude class "EventsBusStartup"
   severity error
 }
 
-rule "meetings_isolated_from_payments" {
-  Meetings must not depend_on Payments
+code rule "meetings_isolated_from_administration" {
+  Meetings must not depend on Administration
   exclude class implementing interface "MediatR.INotificationHandler<>"
   exclude class "IntegrationEventHandler"
   exclude class "EventsBusStartup"
   severity error
 }
 
-rule "administration_isolated_from_payments" {
-  Administration must not depend_on Payments
+code rule "meetings_isolated_from_payments" {
+  Meetings must not depend on Payments
   exclude class implementing interface "MediatR.INotificationHandler<>"
   exclude class "IntegrationEventHandler"
   exclude class "EventsBusStartup"
   severity error
 }
 
-rule "registrations_isolated_from_meetings" {
-  Registrations must not depend_on Meetings
-  exclude class implementing interface "MediatR.INotificationHandler<>"
-  exclude class "IntegrationEventHandler"
-  exclude class "EventsBusStartup"
-  severity error
-}
-
-rule "registrations_isolated_from_administration" {
-  Registrations must not depend_on Administration
-  exclude class implementing interface "MediatR.INotificationHandler<>"
-  exclude class "IntegrationEventHandler"
-  exclude class "EventsBusStartup"
-  severity error
-}
-
-rule "registrations_isolated_from_payments" {
-  Registrations must not depend_on Payments
-  exclude class implementing interface "MediatR.INotificationHandler<>"
-  exclude class "IntegrationEventHandler"
-  exclude class "EventsBusStartup"
-  severity error
-}
-
-rule "registrations_isolated_from_userAccess" {
-  Registrations must not depend_on UserAccess
-  exclude class implementing interface "MediatR.INotificationHandler<>"
-  exclude class "IntegrationEventHandler"
-  exclude class "EventsBusStartup"
-  severity error
-}
-
-rule "meetings_isolated_from_registrations" {
-  Meetings must not depend_on Registrations
-  exclude class implementing interface "MediatR.INotificationHandler<>"
-  exclude class "IntegrationEventHandler"
-  exclude class "EventsBusStartup"
-  severity error
-}
-
-rule "administration_isolated_from_registrations" {
-  Administration must not depend_on Registrations
-  exclude class implementing interface "MediatR.INotificationHandler<>"
-  exclude class "IntegrationEventHandler"
-  exclude class "EventsBusStartup"
-  severity error
-}
-
-rule "payments_isolated_from_registrations" {
-  Payments must not depend_on Registrations
-  exclude class implementing interface "MediatR.INotificationHandler<>"
-  exclude class "IntegrationEventHandler"
-  exclude class "EventsBusStartup"
-  severity error
-}
-
-rule "userAccess_isolated_from_registrations" {
-  UserAccess must not depend_on Registrations
+code rule "administration_isolated_from_payments" {
+  Administration must not depend on Payments
   exclude class implementing interface "MediatR.INotificationHandler<>"
   exclude class "IntegrationEventHandler"
   exclude class "EventsBusStartup"

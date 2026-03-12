@@ -1,14 +1,13 @@
 adr "0006" "Create facade between API and business module"
 
 component "API" = "CompanyName.MyMeetings.API.."
-component "BuildingBlocks" = "CompanyName.MyMeetings.BuildingBlocks.."   # optional
+component "BuildingBlocks" = "CompanyName.MyMeetings.BuildingBlocks.."
+component "MeetingsContracts" = "CompanyName.MyMeetings.Modules.Meetings.Application.Contracts.."
+component "AdministrationContracts" = "CompanyName.MyMeetings.Modules.Administration.Application.Contracts.."
+component "PaymentsContracts" = "CompanyName.MyMeetings.Modules.Payments.Application.Contracts.."
+component "UserAccessContracts" = "CompanyName.MyMeetings.Modules.UserAccess.Application.Contracts.."
 
-rule "api_uses_only_module_contracts_and_buildingblocks" {
-  API must only depend_on API, BuildingBlocks,
-    component "CompanyName.MyMeetings.Modules.Meetings.Application.Contracts..",
-    component "CompanyName.MyMeetings.Modules.Administration.Application.Contracts..",
-    component "CompanyName.MyMeetings.Modules.Payments.Application.Contracts..",
-    component "CompanyName.MyMeetings.Modules.UserAccess.Application.Contracts.."
-
+code rule "api_uses_only_module_contracts_and_buildingblocks" {
+  API must only depend on API, BuildingBlocks, MeetingsContracts, AdministrationContracts, PaymentsContracts, UserAccessContracts
   severity error
 }

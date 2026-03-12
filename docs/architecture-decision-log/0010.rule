@@ -5,22 +5,22 @@ component "Application"    = "CompanyName.MyMeetings.Modules.*.Application.."
 component "Infrastructure" = "CompanyName.MyMeetings.Modules.*.Infrastructure.."
 component "API"            = "CompanyName.MyMeetings.API.."
 
-rule "domain_is_inner" {
-  Domain must only depend_on Domain
+code rule "domain_is_inner" {
+  Domain must only depend on Domain
   severity error
 }
 
-rule "application_only_inward" {
-  Application must only depend_on Application, Domain
+code rule "application_only_inward" {
+  Application must only depend on Application, Domain
   severity error
 }
 
-rule "infrastructure_only_inward" {
-  Infrastructure must only depend_on Infrastructure, Application, Domain
+code rule "infrastructure_only_inward" {
+  Infrastructure must only depend on Infrastructure, Application, Domain
   severity error
 }
 
-rule "api_does_not_depend_on_domain_or_infra" {
-  API must only depend_on API, Application
+code rule "api_does_not_depend_on_domain_or_infra" {
+  API must only depend on API, Application
   severity warning
 }
