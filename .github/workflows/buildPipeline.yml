@@ -35,13 +35,9 @@ jobs:
           for rule in ./docs/architecture-decision-log/*.rule; do
             if [ -f "$rule" ]; then
               echo "  Processing: $rule"
-              ./ade/ade compile -i "$rule" -o ./rules -p ./ade/plugins/csharp
+              ./ade/ade compile -i "$rule" -o ./src/Tests/ArchTests/Generated/ -p ./ade/plugins/csharp
             fi
           done
-          
-          # Copy generated tests to ArchTests project
-          mkdir -p ./src/Tests/ArchTests/Generated
-          cp ./rules/*.g.cs ./src/Tests/ArchTests/Generated/ 2>/dev/null || true
           
           echo "[OK] Generated $(ls -1 ./src/Tests/ArchTests/Generated/*.g.cs 2>/dev/null | wc -l) test files"
       
