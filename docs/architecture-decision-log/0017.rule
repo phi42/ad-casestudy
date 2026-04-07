@@ -1,0 +1,11 @@
+adr "0017" "Implement Architecture Tests"
+
+file "archtests_project_exists" {
+  path "Tests/ArchTests/*.csproj" must exist
+  severity error
+}
+
+file "netarchtest_is_referenced_centrally" {
+  path "Directory.Packages.props" must contain "regex:PackageReference Include=\"NetArchTest\\.Rules\""
+  severity error
+}
