@@ -1,15 +1,16 @@
 adr "0004" "Divide the system into 4 modules"
 
 file "modules_exist" {
-  path "src/Modules/Meetings/" must exist
-  path "src/Modules/Administration/" must exist
-  path "src/Modules/Payments/" must exist
-  path "src/Modules/UserAccess/" must exist
+  path "Modules/Meetings/" must exist
+  path "Modules/Administration/" must exist
+  path "Modules/Payments/" must exist
+  path "Modules/UserAccess/" must exist
+  path "Modules/Registrations/" must exist
   severity error
 }
 
 file "building_blocks_exist" {
-  path "src/BuildingBlocks/" must exist
+  path "BuildingBlocks/" must exist
   severity warning
 }
 

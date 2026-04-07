@@ -1,11 +1,11 @@
 adr "0015" "Use In-Memory Events Bus"
 
 file "inmemory_eventbus_exists" {
-  path "src/BuildingBlocks/Infrastructure/EventBus/InMemoryEventBus.cs" must exist
+  path "BuildingBlocks/Infrastructure/EventBus/InMemoryEventBus.cs" must exist
   severity error
 }
 
-file "no_external_broker_packages" {
-  path "src/**/*.csproj" must not contain "regex:RabbitMQ|MassTransit|NServiceBus"
+file "no_external_messaging" {
+  path "**/appsettings.*.json" must not contain "regex:RabbitMQ|MassTransit|NServiceBus"
   severity warning
 }

@@ -1,11 +1,11 @@
 adr "0016" "Create an IoC Container per module"
 
 file "each_module_has_composition_root" {
-  path "src/Modules/*/Infrastructure/Configuration/*CompositionRoot.cs" must exist
+  path "Modules/*/Infrastructure/Configuration/*CompositionRoot.cs" must exist
   severity error
 }
 
 file "api_registers_modules" {
-  path "src/API/**/Modules/*/*AutofacModule.cs" must exist
+  path "API/**/Modules/*/*AutofacModule.cs" must exist
   severity warning
 }

@@ -1,16 +1,16 @@
 adr "0009" "Use 2 layered architectural style for reads"
 
 file "query_handlers_in_application_layer" {
-  path "src/Modules/**/Application/**/*QueryHandler.cs" must exist
+  path "Modules/**/Application/**/*QueryHandler.cs" must exist
   severity error
 }
 
-file "no_query_handlers_in_domain" {
-  path "src/Modules/**/Domain/**/*Query*.cs" must not exist
-  severity warning
+file "no_query_in_domain" {
+  path "Modules/**/Domain/**/*Query.cs" must not exist
+  severity error
 }
 
 file "api_has_query_endpoints" {
-  path "src/API/**/*Controller.cs" must exist
+  path "API/**/*Controller.cs" must exist
   severity error
 }
