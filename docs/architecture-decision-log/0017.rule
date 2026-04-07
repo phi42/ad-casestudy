@@ -6,6 +6,6 @@ file "archtests_project_exists" {
 }
 
 file "netarchtest_is_referenced_centrally" {
-  path "Directory.Packages.props" must contain "regex:PackageReference Include=\"NetArchTest\\.Rules\""
+  path "Directory.Packages.props" must contain "regex:<PackageReference\\s+Include=\"NetArchTest\\.Rules\""
   severity error
 }
