@@ -5,7 +5,7 @@ component "Meetings"        = "CompanyName.MyMeetings.Modules.Meetings"
 component "Administration"  = "CompanyName.MyMeetings.Modules.Administration"
 component "Payments"        = "CompanyName.MyMeetings.Modules.Payments"
 
-code rule "userAccess_isolated_from_meetings" {
+code "userAccess_isolated_from_meetings" {
   UserAccess must not depend on Meetings
   exclude class implementing interface "MediatR.INotificationHandler<>"
   exclude class "IntegrationEventHandler"
@@ -13,7 +13,7 @@ code rule "userAccess_isolated_from_meetings" {
   severity error
 }
 
-code rule "userAccess_isolated_from_administration" {
+code "userAccess_isolated_from_administration" {
   UserAccess must not depend on Administration
   exclude class implementing interface "MediatR.INotificationHandler<>"
   exclude class "IntegrationEventHandler"
@@ -21,7 +21,7 @@ code rule "userAccess_isolated_from_administration" {
   severity error
 }
 
-code rule "userAccess_isolated_from_payments" {
+code "userAccess_isolated_from_payments" {
   UserAccess must not depend on Payments
   exclude class implementing interface "MediatR.INotificationHandler<>"
   exclude class "IntegrationEventHandler"
@@ -29,7 +29,7 @@ code rule "userAccess_isolated_from_payments" {
   severity error
 }
 
-code rule "meetings_isolated_from_administration" {
+code "meetings_isolated_from_administration" {
   Meetings must not depend on Administration
   exclude class implementing interface "MediatR.INotificationHandler<>"
   exclude class "IntegrationEventHandler"
@@ -37,7 +37,7 @@ code rule "meetings_isolated_from_administration" {
   severity error
 }
 
-code rule "meetings_isolated_from_payments" {
+code "meetings_isolated_from_payments" {
   Meetings must not depend on Payments
   exclude class implementing interface "MediatR.INotificationHandler<>"
   exclude class "IntegrationEventHandler"
@@ -45,7 +45,7 @@ code rule "meetings_isolated_from_payments" {
   severity error
 }
 
-code rule "administration_isolated_from_payments" {
+code "administration_isolated_from_payments" {
   Administration must not depend on Payments
   exclude class implementing interface "MediatR.INotificationHandler<>"
   exclude class "IntegrationEventHandler"

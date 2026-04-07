@@ -1,6 +1,6 @@
 adr "0004" "Divide the system into 4 modules"
 
-file rule "modules_exist" {
+file "modules_exist" {
   path "src/Modules/Meetings/" must exist
   path "src/Modules/Administration/" must exist
   path "src/Modules/Payments/" must exist
@@ -8,7 +8,7 @@ file rule "modules_exist" {
   severity error
 }
 
-file rule "building_blocks_exist" {
+file "building_blocks_exist" {
   path "src/BuildingBlocks/" must exist
   severity warning
 }

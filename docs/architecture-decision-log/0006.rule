@@ -7,7 +7,7 @@ component "AdministrationContracts" = "CompanyName.MyMeetings.Modules.Administra
 component "PaymentsContracts" = "CompanyName.MyMeetings.Modules.Payments.Application.Contracts.."
 component "UserAccessContracts" = "CompanyName.MyMeetings.Modules.UserAccess.Application.Contracts.."
 
-code rule "api_uses_only_module_contracts_and_buildingblocks" {
+code "api_uses_only_module_contracts_and_buildingblocks" {
   API must only depend on API, BuildingBlocks, MeetingsContracts, AdministrationContracts, PaymentsContracts, UserAccessContracts
   severity error
 }
