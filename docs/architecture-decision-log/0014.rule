@@ -4,6 +4,7 @@ component "UserAccess"      = "CompanyName.MyMeetings.Modules.UserAccess"
 component "Meetings"        = "CompanyName.MyMeetings.Modules.Meetings"
 component "Administration"  = "CompanyName.MyMeetings.Modules.Administration"
 component "Payments"        = "CompanyName.MyMeetings.Modules.Payments"
+component "Registrations"   = "CompanyName.MyMeetings.Modules.Registrations"
 
 code "userAccess_isolated_from_meetings" {
   UserAccess must not depend on Meetings
@@ -47,6 +48,38 @@ code "meetings_isolated_from_payments" {
 
 code "administration_isolated_from_payments" {
   Administration must not depend on Payments
+  exclude class implementing interface "MediatR.INotificationHandler<>"
+  exclude class "IntegrationEventHandler"
+  exclude class "EventsBusStartup"
+  severity error
+}
+
+code "registrations_isolated_from_meetings" {
+  Registrations must not depend on Meetings
+  exclude class implementing interface "MediatR.INotificationHandler<>"
+  exclude class "IntegrationEventHandler"
+  exclude class "EventsBusStartup"
+  severity error
+}
+
+code "registrations_isolated_from_administration" {
+  Registrations must not depend on Administration
+  exclude class implementing interface "MediatR.INotificationHandler<>"
+  exclude class "IntegrationEventHandler"
+  exclude class "EventsBusStartup"
+  severity error
+}
+
+code "registrations_isolated_from_payments" {
+  Registrations must not depend on Payments
+  exclude class implementing interface "MediatR.INotificationHandler<>"
+  exclude class "IntegrationEventHandler"
+  exclude class "EventsBusStartup"
+  severity error
+}
+
+code "registrations_isolated_from_userAccess" {
+  Registrations must not depend on UserAccess
   exclude class implementing interface "MediatR.INotificationHandler<>"
   exclude class "IntegrationEventHandler"
   exclude class "EventsBusStartup"
