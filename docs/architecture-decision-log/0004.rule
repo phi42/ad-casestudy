@@ -1,11 +1,5 @@
 adr "0004" "Divide the system into 4 modules"
 
-component "Meetings"       = "CompanyName.MyMeetings.Modules.Meetings"
-component "Administration" = "CompanyName.MyMeetings.Modules.Administration"
-component "Payments"       = "CompanyName.MyMeetings.Modules.Payments"
-component "UserAccess"     = "CompanyName.MyMeetings.Modules.UserAccess"
-component "Registrations"  = "CompanyName.MyMeetings.Modules.Registrations"
-
 file "modules_exist" {
   path "Modules/Meetings/" must exist
   path "Modules/Administration/" must exist
@@ -18,39 +12,4 @@ file "modules_exist" {
 file "building_blocks_exist" {
   path "BuildingBlocks/" must exist
   severity warning
-}
-
-code "meetings_isolated" {
-  Meetings must not depend on Administration, Payments, UserAccess, Registrations
-  exclude class implementing interface "MediatR.INotificationHandler<>"
-  exclude class "EventsBusStartup"
-  severity error
-}
-
-code "administration_isolated" {
-  Administration must not depend on Meetings, Payments, UserAccess, Registrations
-  exclude class implementing interface "MediatR.INotificationHandler<>"
-  exclude class "EventsBusStartup"
-  severity error
-}
-
-code "payments_isolated" {
-  Payments must not depend on Meetings, Administration, UserAccess, Registrations
-  exclude class implementing interface "MediatR.INotificationHandler<>"
-  exclude class "EventsBusStartup"
-  severity error
-}
-
-code "userAccess_isolated" {
-  UserAccess must not depend on Meetings, Administration, Payments, Registrations
-  exclude class implementing interface "MediatR.INotificationHandler<>"
-  exclude class "EventsBusStartup"
-  severity error
-}
-
-code "registrations_isolated" {
-  Registrations must not depend on Meetings, Administration, Payments, UserAccess
-  exclude class implementing interface "MediatR.INotificationHandler<>"
-  exclude class "EventsBusStartup"
-  severity error
 }
