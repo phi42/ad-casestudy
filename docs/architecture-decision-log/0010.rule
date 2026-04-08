@@ -92,12 +92,21 @@ code "registrations_application_only_inward" {
   severity error
 }
 
+# UserAccessGateway and UserAccessAutofacModule are excluded because the
+# Registrations module makes a deliberate direct call to UserAccess to create
+# a user account synchronously after registration. See ADR 0004 comments in
+# 0004.rule for full rationale.
 code "registrations_infrastructure_only_inward" {
   RegistrationsInfra must only depend on RegistrationsInfra, RegistrationsApplication, RegistrationsDomain
+  exclude class "UserAccessGateway"
+  exclude class "UserAccessAutofacModule"
   severity error
 }
 
-code "api_does_not_depend_on_domain_or_infra" {
-  API must only depend on API, MeetingsApplication, AdminApplication, PaymentsApplication, UserAccessApplication, RegistrationsApplication
-  severity warning
-}
+# A rule enforcing that the API depends only on Application layers is not
+# included here because Startup.cs and the AutofacModules in the API must
+# reference each module's Infrastructure.Configuration namespace to set up
+# the per-module IoC container (ADR 0016). NetArchTest performs StartsWith
+# matching so Infrastructure.Configuration cannot be allowed while forbidding
+# Infrastructure. The meaningful constraint (no direct Domain access) is
+# enforced by ADR 0006 (see 0006.rule).

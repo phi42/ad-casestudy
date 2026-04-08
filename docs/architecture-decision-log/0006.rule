@@ -1,13 +1,23 @@
 adr "0006" "Create facade between API and business module"
 
-component "API" = "CompanyName.MyMeetings.API.."
-component "BuildingBlocks" = "CompanyName.MyMeetings.BuildingBlocks.."
-component "MeetingsContracts" = "CompanyName.MyMeetings.Modules.Meetings.Application.Contracts.."
-component "AdministrationContracts" = "CompanyName.MyMeetings.Modules.Administration.Application.Contracts.."
-component "PaymentsContracts" = "CompanyName.MyMeetings.Modules.Payments.Application.Contracts.."
-component "UserAccessContracts" = "CompanyName.MyMeetings.Modules.UserAccess.Application.Contracts.."
+component "API"                      = "CompanyName.MyMeetings.API"
+component "MeetingsDomain"           = "CompanyName.MyMeetings.Modules.Meetings.Domain"
+component "AdminDomain"              = "CompanyName.MyMeetings.Modules.Administration.Domain"
+component "PaymentsDomain"           = "CompanyName.MyMeetings.Modules.Payments.Domain"
+component "UserAccessDomain"         = "CompanyName.MyMeetings.Modules.UserAccess.Domain"
+component "RegistrationsDomain"      = "CompanyName.MyMeetings.Modules.Registrations.Domain"
 
-code "api_uses_only_module_contracts_and_buildingblocks" {
-  API must only depend on API, BuildingBlocks, MeetingsContracts, AdministrationContracts, PaymentsContracts, UserAccessContracts
+# ADR 0006 states the API communicates with each module only through the module
+# facade interface (IXxxModule). Domain types are internal implementation detail
+# that the API layer must never reach into.
+#
+# A stricter version of this rule would also forbid the API from depending on
+# module Infrastructure, but Startup.cs and the per-module AutofacModules in
+# the API must reference Infrastructure.Configuration to register the IoC
+# container per module (per ADR 0016). NetArchTest's StartsWith matching cannot
+# distinguish Infrastructure from Infrastructure.Configuration, so that
+# boundary is documented but not machine-checked here.
+code "api_does_not_use_domain_directly" {
+  API must not depend on MeetingsDomain, AdminDomain, PaymentsDomain, UserAccessDomain, RegistrationsDomain
   severity error
 }

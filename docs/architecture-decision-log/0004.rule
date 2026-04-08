@@ -20,6 +20,10 @@ file "building_blocks_exist" {
   severity warning
 }
 
+# INotificationHandler<> implementations are integration event handlers that
+# subscribe to events published by other modules. They are the intended
+# cross-module integration mechanism per ADR 0014 and must be excluded here.
+# EventsBusStartup is excluded for the same reason: it wires up the event bus.
 code "meetings_isolated" {
   Meetings must not depend on Administration, Payments, UserAccess, Registrations
   exclude class implementing interface "MediatR.INotificationHandler<>"
@@ -48,9 +52,16 @@ code "userAccess_isolated" {
   severity error
 }
 
+# UserAccessGateway and UserAccessAutofacModule are deliberate exceptions.
+# After a user completes registration, a user account must be created in the
+# UserAccess module immediately and synchronously. This direct call is an
+# accepted deviation from event-driven communication because eventual
+# consistency is not acceptable for account creation.
 code "registrations_isolated" {
   Registrations must not depend on Meetings, Administration, Payments, UserAccess
   exclude class implementing interface "MediatR.INotificationHandler<>"
   exclude class "EventsBusStartup"
+  exclude class "UserAccessGateway"
+  exclude class "UserAccessAutofacModule"
   severity error
 }
