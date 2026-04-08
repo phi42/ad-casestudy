@@ -35,7 +35,7 @@ jobs:
           for rule in ./docs/architecture-decision-log/*.rule; do
             if [ -f "$rule" ]; then
               echo "  Processing: $rule"
-              ./ade/ade compile -i "$rule" -o ./src/Tests/ArchTests/Generated/ -p ./ade/plugins/csharp
+              ./ade/ade compile -i "$rule" -o ./src/Tests/ArchTests/Generated/ -p ./ade/plugins/netarch
             fi
           done
           
