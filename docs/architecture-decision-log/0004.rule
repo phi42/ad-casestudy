@@ -1,7 +1,7 @@
 adr "0004" "Divide the system into 4 modules"
 
 file "modules_exist" {
-  path "Modules/Meetings/" must exist
+  path "Modules/Meetings/" must not exist # not as a test
   path "Modules/Administration/" must exist
   path "Modules/Payments/" must exist
   path "Modules/UserAccess/" must exist

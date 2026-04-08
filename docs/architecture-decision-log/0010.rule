@@ -16,7 +16,7 @@ code "application_only_inward" {
 }
 
 code "infrastructure_only_inward" {
-  Infrastructure must only depend on Infrastructure, Application, Domain
+  Infrastructure must only depend on Infrastructure # , Application, Domain
   severity error
 }
 
