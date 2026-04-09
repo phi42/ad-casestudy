@@ -34,25 +34,24 @@ jobs:
           # Generate tests for all rule files
           for rule in ./docs/architecture-decision-log/*.rule; do
             if [ -f "$rule" ]; then
-              echo "  Processing: $rule"
               ./ade/ade --no-warnings compile -i "$rule" -o ./src/Tests/ArchTests/Generated/ -p ./ade/plugins/netarch
             fi
           done
           
-          echo "[OK] Generated $(ls -1 ./src/Tests/ArchTests/Generated/*.g.cs 2>/dev/null | wc -l) test files"
+          echo "Generated $(ls -1 ./src/Tests/ArchTests/Generated/*.g.cs 2>/dev/null | wc -l) test files"
       
       - name: Run build
         run: ./build.sh BuildAndUnitTests --configuration Release
 
   rule-check:
-    name: Check Architecture Rules
+    name: Check Architecture File Rules
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
       
       # Generate architecture tests from ADR rules
-      - name: Check ADE Architecture Rules
+      - name: Check ADE Architecture File Rules
         run: |
           echo "Setting up ADE tool and plugins..."
           
