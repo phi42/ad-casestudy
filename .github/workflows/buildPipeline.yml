@@ -35,7 +35,7 @@ jobs:
           for rule in ./docs/architecture-decision-log/*.rule; do
             if [ -f "$rule" ]; then
               echo "  Processing: $rule"
-              ./ade/ade compile -i "$rule" -o ./src/Tests/ArchTests/Generated/ -p ./ade/plugins/netarch
+              ./ade/ade --no-warnings compile -i "$rule" -o ./src/Tests/ArchTests/Generated/ -p ./ade/plugins/netarch
             fi
           done
           
@@ -64,7 +64,7 @@ jobs:
             
           failed=0
           for rule in docs/architecture-decision-log/*.rule; do
-            ./ade/ade check -i "$rule" -p ./ade/plugins/filecheck -r src || failed=1
+            ./ade/ade --no-warnings check -i "$rule" -p ./ade/plugins/filecheck -r src || failed=1
           done
           exit $failed
 
