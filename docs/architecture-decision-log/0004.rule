@@ -7,7 +7,7 @@ component "UserAccess"     = "CompanyName.MyMeetings.Modules.UserAccess"
 component "Registrations"  = "CompanyName.MyMeetings.Modules.Registrations"
 
 file "modules_exist" {
-  path "Modules/Meetings/" must exist
+  path "Modules/Meetings/" must not exist # test
   path "Modules/Administration/" must exist
   path "Modules/Payments/" must exist
   path "Modules/UserAccess/" must exist

@@ -52,7 +52,7 @@ jobs:
       - uses: actions/checkout@v4
       
       # Generate architecture tests from ADR rules
-      - name: Generate ADE Architecture Tests
+      - name: Check ADE Architecture Rules
         run: |
           echo "Setting up ADE tool and plugins..."
           
@@ -61,14 +61,12 @@ jobs:
           chmod +x ade/plugins/*
                     
           echo "Checking architecture violations from ADR rules..."
-                    
+            
           failed=0
           for rule in docs/architecture-decision-log/*.rule; do
             ./ade/ade check -i "$rule" -p ./ade/plugins/filecheck -r src || failed=1
           done
           exit $failed
-
-          echo "[OK] Generated $(ls -1 ./src/Tests/ArchTests/Generated/*.g.cs 2>/dev/null | wc -l) test files"
 
   # integration:
   #   name: Build and run Integration Tests
