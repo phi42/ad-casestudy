@@ -1,4 +1,0 @@
-plugins:
-  netarch: ./plugins/netarch.exe
-  filecheck: ./plugins/filecheck.exe
-  arch-go:  ./plugins/arch-go.exe
