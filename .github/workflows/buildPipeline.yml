@@ -34,7 +34,7 @@ jobs:
           # Generate tests for all rule files
           for rule in ./docs/architecture-decision-log/*.rule; do
             if [ -f "$rule" ]; then
-              ./ade/ade --no-warnings compile -i "$rule" -o ./src/Tests/ArchTests/Generated/ -p ./ade/plugins/netarch
+              ./ade/ade --no-warnings compile -i "$rule" -o ./src/Tests/ArchTests/Generated/ -p netarch
             fi
           done
           
@@ -63,7 +63,7 @@ jobs:
             
           failed=0
           for rule in docs/architecture-decision-log/*.rule; do
-            ./ade/ade --no-warnings check -i "$rule" -p ./ade/plugins/filecheck -r src || failed=1
+            ./ade/ade --no-warnings check -i "$rule" -p filecheck -r src || failed=1
           done
           exit $failed
 
