@@ -29,7 +29,7 @@ jobs:
         run: go install github.com/adr/ad-guidance-tool/adg@v1.0.1-dev
 
       - name: Install netarch plugin
-        run: adg enforce plugin install netarch --repo github.com/phi42/ad-plugin-NetArchTest
+        run: adg enforce plugin install netarch --repo github.com/phi42/ad-plugin-netarchtest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -55,7 +55,7 @@ jobs:
         run: go install github.com/adr/ad-guidance-tool/adg@v1.0.1-dev
 
       - name: Install fscheck plugin
-        run: adg enforce plugin install fscheck --repo github.com/phi42/ad-plugin-FScheck
+        run: adg enforce plugin install fscheck --repo github.com/phi42/ad-plugin-fscheck
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
