@@ -26,7 +26,7 @@ jobs:
           dotnet-version: 8.0.x
 
       - name: Install adg
-        run: go install github.com/adr/ad-guidance-tool/adg@v1.0.1-dev
+        run: go install github.com/phi42/ad-enforcement-tool/adg@v0.1.1-dev
 
       - name: Install netarch plugin
         run: adg enforce plugin install netarch --repo github.com/phi42/ad-plugin-netarchtest
@@ -52,7 +52,7 @@ jobs:
           go-version: stable
 
       - name: Install adg
-        run: go install github.com/adr/ad-guidance-tool/adg@v1.0.1-dev
+        run: go install github.com/phi42/ad-enforcement-tool/adg@v0.1.1-dev
 
       - name: Install fscheck plugin
         run: adg enforce plugin install fscheck --repo github.com/phi42/ad-plugin-fscheck
@@ -75,4 +75,3 @@ jobs:
   #         dotnet-version: 8.0.x
   #     - name: Run build
   #       run: ./build.sh RunAllIntegrationTests
-
