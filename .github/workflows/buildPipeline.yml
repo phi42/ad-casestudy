@@ -25,16 +25,16 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      - name: Install adg
-        run: go install github.com/phi42/ad-enforcement-tool/adg@v0.1.1-dev
+      - name: Install ade
+        run: go install github.com/phi42/ad-enforcement-tool/ade@v0.1.1-dev
 
       - name: Install netarch plugin
-        run: adg enforce plugin install netarch --repo github.com/phi42/ad-plugin-netarchtest
+        run: ade plugin install netarch --repo github.com/phi42/ad-plugin-netarchtest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate architecture tests from ADR rules
-        run: adg enforce compile -i docs/architecture-decision-log/ -p netarch -o src/Tests/ArchTests/Generated/
+        run: ade compile -i docs/architecture-decision-log/ -p netarch -o src/Tests/ArchTests/Generated/
 
       - name: Run build
         run: ./build.sh BuildAndUnitTests --configuration Release
@@ -51,16 +51,16 @@ jobs:
         with:
           go-version: stable
 
-      - name: Install adg
-        run: go install github.com/phi42/ad-enforcement-tool/adg@v0.1.1-dev
+      - name: Install ade
+        run: go install github.com/phi42/ad-enforcement-tool/ade@v0.1.1-dev
 
       - name: Install fscheck plugin
-        run: adg enforce plugin install fscheck --repo github.com/phi42/ad-plugin-fscheck
+        run: ade plugin install fscheck --repo github.com/phi42/ad-plugin-fscheck
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check architecture file rules
-        run: adg enforce verify -i docs/architecture-decision-log/ -p fscheck -r src
+        run: ade verify -i docs/architecture-decision-log/ -p fscheck -r src
 
   # integration:
   #   name: Build and run Integration Tests
