@@ -34,7 +34,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate architecture tests from ADR rules
-        run: ade compile -i docs/architecture-decision-log/ -p netarch -o src/Tests/ArchTests/Generated/
+        run: ade compile
 
       - name: Run build
         run: ./build.sh BuildAndUnitTests --configuration Release
@@ -60,7 +60,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check architecture file rules
-        run: ade verify -i docs/architecture-decision-log/ -p fscheck -r src
+        run: ade verify
 
   # integration:
   #   name: Build and run Integration Tests

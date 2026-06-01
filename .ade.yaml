@@ -3,7 +3,7 @@ defaults:
         plugin: netarch
         input: ./docs/architecture-decision-log
     verify:
-        plugin: netarch
+        plugin: fscheck
         input: ./docs/architecture-decision-log
 
 plugin_configs:
