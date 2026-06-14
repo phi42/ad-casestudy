@@ -1,0 +1,112 @@
+adr "0010" "Use Clean Architecture for writes"
+
+component "MeetingsDomain"           = "CompanyName.MyMeetings.Modules.Meetings.Domain"
+component "MeetingsApplication"      = "CompanyName.MyMeetings.Modules.Meetings.Application"
+component "MeetingsInfrastructure"   = "CompanyName.MyMeetings.Modules.Meetings.Infrastructure"
+
+component "AdminDomain"              = "CompanyName.MyMeetings.Modules.Administration.Domain"
+component "AdminApplication"         = "CompanyName.MyMeetings.Modules.Administration.Application"
+component "AdminInfrastructure"      = "CompanyName.MyMeetings.Modules.Administration.Infrastructure"
+
+component "PaymentsDomain"           = "CompanyName.MyMeetings.Modules.Payments.Domain"
+component "PaymentsApplication"      = "CompanyName.MyMeetings.Modules.Payments.Application"
+component "PaymentsInfrastructure"   = "CompanyName.MyMeetings.Modules.Payments.Infrastructure"
+
+component "UserAccessDomain"         = "CompanyName.MyMeetings.Modules.UserAccess.Domain"
+component "UserAccessApplication"    = "CompanyName.MyMeetings.Modules.UserAccess.Application"
+component "UserAccessInfrastructure" = "CompanyName.MyMeetings.Modules.UserAccess.Infrastructure"
+
+component "RegistrationsDomain"      = "CompanyName.MyMeetings.Modules.Registrations.Domain"
+component "RegistrationsApplication" = "CompanyName.MyMeetings.Modules.Registrations.Application"
+component "RegistrationsInfra"       = "CompanyName.MyMeetings.Modules.Registrations.Infrastructure"
+
+component "API"                      = "CompanyName.MyMeetings.API"
+
+code "meetings_domain_is_inner" {
+  MeetingsDomain must only depend on MeetingsDomain
+  severity error
+}
+
+code "meetings_application_only_inward" {
+  MeetingsApplication must only depend on MeetingsApplication, MeetingsDomain
+  severity error
+}
+
+code "meetings_infrastructure_only_inward" {
+  MeetingsInfrastructure must only depend on MeetingsInfrastructure, MeetingsApplication, MeetingsDomain
+  severity error
+}
+
+code "admin_domain_is_inner" {
+  AdminDomain must only depend on AdminDomain
+  severity error
+}
+
+code "admin_application_only_inward" {
+  AdminApplication must only depend on AdminApplication, AdminDomain
+  severity error
+}
+
+code "admin_infrastructure_only_inward" {
+  AdminInfrastructure must only depend on AdminInfrastructure, AdminApplication, AdminDomain
+  severity error
+}
+
+code "payments_domain_is_inner" {
+  PaymentsDomain must only depend on PaymentsDomain
+  severity error
+}
+
+code "payments_application_only_inward" {
+  PaymentsApplication must only depend on PaymentsApplication, PaymentsDomain
+  severity error
+}
+
+code "payments_infrastructure_only_inward" {
+  PaymentsInfrastructure must only depend on PaymentsInfrastructure, PaymentsApplication, PaymentsDomain
+  severity error
+}
+
+code "userAccess_domain_is_inner" {
+  UserAccessDomain must only depend on UserAccessDomain
+  severity error
+}
+
+code "userAccess_application_only_inward" {
+  UserAccessApplication must only depend on UserAccessApplication, UserAccessDomain
+  severity error
+}
+
+code "userAccess_infrastructure_only_inward" {
+  UserAccessInfrastructure must only depend on UserAccessInfrastructure, UserAccessApplication, UserAccessDomain
+  severity error
+}
+
+code "registrations_domain_is_inner" {
+  RegistrationsDomain must only depend on RegistrationsDomain
+  severity error
+}
+
+code "registrations_application_only_inward" {
+  RegistrationsApplication must only depend on RegistrationsApplication, RegistrationsDomain
+  severity error
+}
+
+# UserAccessGateway and UserAccessAutofacModule are excluded because the
+# Registrations module makes a deliberate direct call to UserAccess to create
+# a user account synchronously after registration. See ADR 0004 comments in
+# 0004.rule for full rationale.
+code "registrations_infrastructure_only_inward" {
+  RegistrationsInfra must only depend on RegistrationsInfra, RegistrationsApplication, RegistrationsDomain
+  exclude class "UserAccessGateway"
+  exclude class "UserAccessAutofacModule"
+  severity error
+}
+
+# A rule enforcing that the API depends only on Application layers is not
+# included here because Startup.cs and the AutofacModules in the API must
+# reference each module's Infrastructure.Configuration namespace to set up
+# the per-module IoC container (ADR 0016). NetArchTest performs StartsWith
+# matching so Infrastructure.Configuration cannot be allowed while forbidding
+# Infrastructure. The meaningful constraint (no direct Domain access) is
+# enforced by ADR 0006 (see 0006.rule).

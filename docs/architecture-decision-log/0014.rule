@@ -1,0 +1,98 @@
+adr "0014" "Event-driven communication between modules"
+
+component "UserAccess"      = "CompanyName.MyMeetings.Modules.UserAccess"
+component "Meetings"        = "CompanyName.MyMeetings.Modules.Meetings"
+component "Administration"  = "CompanyName.MyMeetings.Modules.Administration"
+component "Payments"        = "CompanyName.MyMeetings.Modules.Payments"
+component "Registrations"   = "CompanyName.MyMeetings.Modules.Registrations"
+
+# INotificationHandler<> implementations subscribe to integration events from
+# other modules. This is the intended cross-module communication mechanism per
+# this ADR and must not be flagged as a violation.
+# IntegrationEventHandler and EventsBusStartup are excluded for the same reason.
+code "userAccess_isolated_from_meetings" {
+  UserAccess must not depend on Meetings
+  exclude class implementing interface "MediatR.INotificationHandler<>"
+  exclude class "IntegrationEventHandler"
+  exclude class "EventsBusStartup"
+  severity error
+}
+
+code "userAccess_isolated_from_administration" {
+  UserAccess must not depend on Administration
+  exclude class implementing interface "MediatR.INotificationHandler<>"
+  exclude class "IntegrationEventHandler"
+  exclude class "EventsBusStartup"
+  severity error
+}
+
+code "userAccess_isolated_from_payments" {
+  UserAccess must not depend on Payments
+  exclude class implementing interface "MediatR.INotificationHandler<>"
+  exclude class "IntegrationEventHandler"
+  exclude class "EventsBusStartup"
+  severity error
+}
+
+code "meetings_isolated_from_administration" {
+  Meetings must not depend on Administration
+  exclude class implementing interface "MediatR.INotificationHandler<>"
+  exclude class "IntegrationEventHandler"
+  exclude class "EventsBusStartup"
+  severity error
+}
+
+code "meetings_isolated_from_payments" {
+  Meetings must not depend on Payments
+  exclude class implementing interface "MediatR.INotificationHandler<>"
+  exclude class "IntegrationEventHandler"
+  exclude class "EventsBusStartup"
+  severity error
+}
+
+code "administration_isolated_from_payments" {
+  Administration must not depend on Payments
+  exclude class implementing interface "MediatR.INotificationHandler<>"
+  exclude class "IntegrationEventHandler"
+  exclude class "EventsBusStartup"
+  severity error
+}
+
+code "registrations_isolated_from_meetings" {
+  Registrations must not depend on Meetings
+  exclude class implementing interface "MediatR.INotificationHandler<>"
+  exclude class "IntegrationEventHandler"
+  exclude class "EventsBusStartup"
+  severity error
+}
+
+code "registrations_isolated_from_administration" {
+  Registrations must not depend on Administration
+  exclude class implementing interface "MediatR.INotificationHandler<>"
+  exclude class "IntegrationEventHandler"
+  exclude class "EventsBusStartup"
+  severity error
+}
+
+code "registrations_isolated_from_payments" {
+  Registrations must not depend on Payments
+  exclude class implementing interface "MediatR.INotificationHandler<>"
+  exclude class "IntegrationEventHandler"
+  exclude class "EventsBusStartup"
+  severity error
+}
+
+# UserAccessGateway and UserAccessAutofacModule are excluded because
+# Registrations makes a deliberate direct synchronous call to UserAccess to
+# create a user account after registration. This is an accepted exception to
+# the event-driven communication pattern: eventual consistency is not
+# acceptable for account creation. See also 0004.rule and 0010.rule.
+code "registrations_isolated_from_userAccess" {
+  Registrations must not depend on UserAccess
+  exclude class implementing interface "MediatR.INotificationHandler<>"
+  exclude class "IntegrationEventHandler"
+  exclude class "EventsBusStartup"
+  exclude class "UserAccessGateway"
+  exclude class "UserAccessAutofacModule"
+  severity error
+}

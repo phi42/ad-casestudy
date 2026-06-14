@@ -1,0 +1,15 @@
+defaults:
+    compile:
+        plugin: netarch
+        input: ./docs/architecture-decision-log
+    verify:
+        plugin: fscheck
+        input: ./docs/architecture-decision-log
+
+plugin_configs:
+    netarchtest:
+        output-dir: ./src/Tests/ArchTests/Generated
+        test-project: ./src/Tests/ArchTests/CompanyName.MyMeetings.ArchTests.csproj
+        assembly-prefixes: CompanyName.MyMeetings.
+    fscheck:
+        root-dir: ./src

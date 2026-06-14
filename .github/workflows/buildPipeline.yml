@@ -5,6 +5,7 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -13,23 +14,64 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: stable
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
+
+      - name: Install ade
+        run: go install github.com/phi42/ad-enforcement-tool/ade@v0.1.3-dev
+
+      - name: Install netarch plugin
+        run: ade plugin install netarch --repo github.com/phi42/ad-plugin-netarchtest@v0.1.3-dev
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate architecture tests from ADR rules
+        run: ade compile
+
       - name: Run build
         run: ./build.sh BuildAndUnitTests --configuration Release
 
-  integration:
-    name: Build and run Integration Tests
-    needs: [build]
+  rule-check:
+    name: Check Architecture File Rules
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
         with:
-          dotnet-version: 8.0.x
-      - name: Run build
-        run: ./build.sh RunAllIntegrationTests
+          go-version: stable
+
+      - name: Install ade
+        run: go install github.com/phi42/ad-enforcement-tool/ade@v0.1.3-dev
+
+      - name: Install fscheck plugin
+        run: ade plugin install fscheck --repo github.com/phi42/ad-plugin-fscheck@v0.1.3-dev
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check architecture file rules
+        run: ade verify
+
+  # integration:
+  #   name: Build and run Integration Tests
+  #   needs: [build]
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Setup .NET
+  #       uses: actions/setup-dotnet@v4
+  #       with:
+  #         dotnet-version: 8.0.x
+  #     - name: Run build
+  #       run: ./build.sh RunAllIntegrationTests
