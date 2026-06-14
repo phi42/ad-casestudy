@@ -2,7 +2,7 @@
 
 Case study application of the [`ad-enforcement-tool`](https://github.com/phi42/ad-enforcement-tool).
 
-This repository is a fork of Kamil Grzybek's [modular-monolith-with-ddd](https://github.com/kgrzybek/modular-monolith-with-ddd) sample (.NET 8 / Domain-Driven Design). The original README is preserved at [docs/UPSTREAM-README.md](docs/UPSTREAM-README.md).
+This repository is a fork of [modular-monolith-with-ddd](https://github.com/kgrzybek/modular-monolith-with-ddd) (.NET 8 / Domain-Driven Design). The original README is preserved at [docs/ORIGINAL-README.md](docs/ORIGINAL-README.md).
 
 ## Rules
 
