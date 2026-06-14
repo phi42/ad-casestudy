@@ -14,3 +14,11 @@ file "api_has_query_endpoints" {
   path "API/**/*Controller.cs" must exist
   severity error
 }
+
+# All *QueryHandler classes must live in the Application layer of some module.
+# Catches a query handler accidentally placed in Domain or Infrastructure, which
+# the file rules above cannot detect on their own.
+code "query_handlers_in_application" {
+  class match "regex:.*QueryHandler$" must be in component "regex:^CompanyName\.MyMeetings\.Modules\.[^.]+\.Application"
+  severity error
+}
