@@ -4,7 +4,7 @@ Full Modular Monolith .NET application with Domain-Driven Design approach.
 
 ## Announcement
 
-![](docs/Images/glory_to_ukraine.jpg)
+![](Images/glory_to_ukraine.jpg)
 
 Learn, use and benefit from this project only if:
 
@@ -250,7 +250,7 @@ PlantUML version:
 ![](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/kgrzybek/modular-monolith-with-ddd/master/docs/PlantUML/Conceptual_Model.puml)
 
 VisualParadigm version (not maintained, only for demonstration):
-![](docs/Images/Conceptual_Model.png)
+![](Images/Conceptual_Model.png)
 
 **Conceptual Model of commenting feature**
 ![](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/kgrzybek/modular-monolith-with-ddd/master/docs/PlantUML/Commenting_Conceptual_Model.puml)
@@ -267,23 +267,23 @@ Note: Event Storming is a light, live workshop. One of the possible outputs of t
 
 ------
 
-![](docs/Images/User_Registration.jpg)
+![](Images/User_Registration.jpg)
 
 ------
 
 **Meeting Group creation**
-![](docs/Images/Meeting_Group_Creation.jpg)
+![](Images/Meeting_Group_Creation.jpg)
 
 ------
 
 **Meeting organization**
-![](docs/Images/Meeting_Organization.jpg)
+![](Images/Meeting_Organization.jpg)
 
 ------
 
 **Payments**
-![](docs/Images/Payments_EventStorming_Design.jpg)
-[Download high resolution file](docs/Images/Payments_EventStorming_Design_HighRes.jpg)
+![](Images/Payments_EventStorming_Design.jpg)
+[Download high resolution file](Images/Payments_EventStorming_Design_HighRes.jpg)
 
 ------
 
@@ -305,11 +305,11 @@ As can be found on the website of the author of this model ([Simon Brown](https:
 
 #### 3.0.2 C2 Container
 
-![](docs/C4/C2_Containers.png)
+![](C4/C2_Containers.png)
 
 #### 3.0.3 C3 Component (high-level)
 
-![](docs/C4/C3_Components.png)
+![](C4/C3_Components.png)
 
 #### 3.0.4 C3 Component (module-level)
 
@@ -321,7 +321,7 @@ As can be found on the website of the author of this model ([Simon Brown](https:
 
 ### 3.1 High Level View
 
-![](docs/Images/Architecture_high_level.png)
+![](Images/Architecture_high_level.png)
 
 **Module descriptions:**
 
@@ -352,7 +352,7 @@ As can be found on the website of the author of this model ([Simon Brown](https:
 
 ### 3.2 Module Level View
 
-![](docs/Images/Module_level_diagram.png)
+![](Images/Module_level_diagram.png)
 
 Each Module has [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) and consists of the following submodules (assemblies):
 
@@ -361,7 +361,7 @@ Each Module has [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/
 - **Infrastructure** - infrastructural code responsible for module initialization, background processing, data access, communication with Events Bus and other external components or systems
 - **IntegrationEvents** - **Contracts** published to the Events Bus; only this assembly can be called by other modules
 
-![](docs/Images/VSSolution.png)
+![](Images/VSSolution.png)
 
 **Note:** Application, Domain and Infrastructure assemblies could be merged into one assembly. Some people like horizontal layering or more decomposition, some don't. Implementing the Domain Model or Infrastructure in separate assembly allows encapsulation using the [`internal`](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/internal) keyword. Sometimes Bounded Context logic is not worth it because it is too simple. As always, be pragmatic and take whatever approach you like.
 
@@ -411,7 +411,7 @@ public interface IMeetingsModule
 
 Processing of Commands and Queries is separated by applying the architectural style/pattern [Command Query Responsibility Segregation (CQRS)](https://docs.microsoft.com/en-us/azure/architecture/patterns/cqrs).
 
-![](docs/Images/CQRS.jpg)
+![](Images/CQRS.jpg)
 
 Commands are processed using *Write Model* which is implemented using DDD tactical patterns:
 
@@ -579,7 +579,7 @@ public class MeetingGroup : Entity, IAggregateRoot
 
 To support [Single Responsibility Principle](https://en.wikipedia.org/wiki/Single_responsibility_principle) and [Don't Repeat Yourself](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) principles, the implementation of cross-cutting concerns is done using the [Decorator Pattern](https://en.wikipedia.org/wiki/Decorator_pattern). Each Command processor is decorated by 3 decorators: logging, validation and unit of work.
 
-![](docs/Images/Decorator.jpg)
+![](Images/Decorator.jpg)
 
 **Logging**
 
@@ -759,17 +759,17 @@ Integration between modules is strictly **asynchronous** using Integration Event
 
 **Modules don't share data** so it is not possible nor desirable to create a transaction which spans more than one module. To ensure maximum reliability, the [Outbox / Inbox pattern](http://www.kamilgrzybek.com/design/the-outbox-pattern/) is used. This pattern provides accordingly *"At-Least-Once delivery"* and *"At-Least-Once processing"*.
 
-![](docs/Images/OutboxInbox.jpg)
+![](Images/OutboxInbox.jpg)
 
 The Outbox and Inbox is implemented using two SQL tables and a background worker for each module. The background worker is implemented using the Quartz.NET library.
 
 **Saving to Outbox:**
 
-![](docs/Images/OutboxSave.png)
+![](Images/OutboxSave.png)
 
 **Processing Outbox:**
 
-![](docs/Images/OutboxProcessing.png)
+![](Images/OutboxProcessing.png)
 
 ### 3.8 Internal Processing
 
@@ -895,11 +895,11 @@ public async Task<IActionResult> ProposeMeetingGroup(ProposeMeetingGroupRequest 
 **Implementation**
 
 Unit tests should mainly test business logic (domain model): </br>
-![](docs/Images/unit_tests.jpg)
+![](Images/unit_tests.jpg)
 
 Each unit test has 3 standard sections: Arrange, Act and Assert:
 
-![](docs/Images/UnitTestsGeneral.jpg)
+![](Images/UnitTestsGeneral.jpg)
 
 **1\. Arrange**
 
@@ -1052,7 +1052,7 @@ To do this, unit tests of system architecture, design, major conventions and ass
 
 Using this kind of tests we can test proper layering of our application, dependencies, encapsulation, immutability, DDD correct implementation, naming, conventions and so on - everything what we need to test. Example:</br>
 
-![](docs/Images/architecture_unit_tests.png)
+![](Images/architecture_unit_tests.png)
 
 More information about architecture unit tests here: [https://blogs.oracle.com/javamagazine/unit-test-your-architecture-with-archunit](https://blogs.oracle.com/javamagazine/unit-test-your-architecture-with-archunit)
 
@@ -1078,7 +1078,7 @@ For this reason, the definition of integration test in this project is as follow
 
 Integration test should test exactly one use case. One use case is represented by one Command/Query processing so CommandHandler/QueryHandler in Application layer is perfect starting point for running the Integration Test:</br>
 
-![](docs/Images/integration_tests.jpg)
+![](Images/integration_tests.jpg)
 For each test, the following preparation steps must be performed:</br>
 
 1. Clear database
@@ -1166,7 +1166,7 @@ To correctly implement such tests, the **Sampling** technique and implementation
 
 >An asynchronous test must wait for success and use timeouts to detect failure. This implies that every tested activity must have an observable effect: a test must affect the system so that its observable state becomes different. This sounds obvious but it drives how we think about writing asynchronous tests. If an activity has no observable effect, there is nothing the test can wait for, and therefore no way for the test to synchronize with the system it is testing. There are two ways a test can observe the system: by sampling its observable state or by listening for events that it sends out.
 
-![](docs/Images/SystemIntegrationTests.jpg)
+![](Images/SystemIntegrationTests.jpg)
 
 Test below:
 
@@ -1333,7 +1333,7 @@ The main elements of *Event Sourcing* are as follows:
 - *Subscriptions* : a way to receive information about new events
 - *Snapshots*: from time to time, objects saved in the traditional way for performance purposes. Mainly used if there are many events to restore the object from the entire event history. (Note: there is currently no snapshot implementation in the project)
 
-![](docs/Images/ES_elements.jpg)
+![](Images/ES_elements.jpg)
 
 #### Tool
 
@@ -1362,7 +1362,7 @@ There are 2 main "flows" to handle:
 
 The whole process looks like this:
 
-![](docs/Images/ES_command_handling.png)
+![](Images/ES_command_handling.png)
 
 1. We create / update an aggregate by creating an event
 2. We add changes to the Aggregate Store. This is the class responsible for writing / loading our aggregates. We are not saving changes yet.
@@ -1584,7 +1584,7 @@ public class SqlStreamAggregateStore : IAggregateStore
 
 The whole process looks like this:
 
-![](docs/Images/ES_events_projection.png)
+![](Images/ES_events_projection.png)
 
 1. Special class `Subscriptions Manager` subscribes to Events Store (using SQL Store Stream library)
 2. Events Store raises `StreamMessageRecievedEvent`
@@ -1729,7 +1729,7 @@ Sample *Event Store* view after execution of SubscriptionLifecycleTests Integrat
 
 looks like this (*SQL Stream Store* table - *payments.Messages*):
 
-![](docs/Images/ES_event_store_db_sample.png)
+![](Images/ES_event_store_db_sample.png)
 
 ### 3.16 Database Change Management
 
@@ -1766,7 +1766,7 @@ CI was implemented using [GitHub Actions](https://docs.github.com/en/actions/get
 - build test, execute Unit Tests and Architecture Tests
 - execute Integration Tests
 
-![](docs/Images/ci.jpg)
+![](Images/ci.jpg)
 
 **Steps description**<br/>
 a) Checkout repository - clean checkout of git repository <br/>
@@ -1789,9 +1789,9 @@ Workflow definition: [buildPipeline.yml](.github/workflows/buildPipeline.yml)
 
 Example workflow output:
 
-![](docs/Images/ci_job1.png)
+![](Images/ci_job1.png)
 
-![](docs/Images/ci_job2.png)
+![](Images/ci_job2.png)
 
 #### NUKE
 
@@ -1917,7 +1917,7 @@ There is always a need to prepare the entire system in a specific state, e.g. fo
 
 The implementation of such automation based on the use of NUKE and the test framework is presented below. As in the case of integration testing, we use the public API of modules.
 
-![](docs/Images/sut-preparation.jpg)
+![](Images/sut-preparation.jpg)
 
 Below is a SUT whose task is to go through the whole process - from setting up a *Meeting Group*, through its *Payment*, adding a new *Meeting* and signing up for it by another user.
 
@@ -2026,11 +2026,11 @@ dotnet stryker
 
 The result of this command is the *mutation report file*. Assuming we want to test the unit tests of the Meetings module, such a [report](docs/mutation-tests-reports/mutation-report.html) has been generated. This is its first page:
 
-![](docs/Images/mutation_testing_report.png)
+![](Images/mutation_testing_report.png)
 
 Let us analyze one of the places where the mutant survived. This is the *AddNotAttendee* method of the *Meeting* class. This method is used to add a *Member* to the list of people who have decided not to attend the meeting. According to the logic, if the same person previously indicated that he was going to the *Meeting* and later changed his mind, then if there is someone on the *Waiting List*, he should be added to the attendees. Based on requirements, this should be the person who signed up on the *Waiting List* **first** (based on **SignUpDate**).
 
-![](docs/Images/mutation_testing_example.png)
+![](Images/mutation_testing_example.png)
 
 As you can see, the mutation framework changed our sorting in linq query (from default ascending to descending). However, each test was successful, so it means that mutant survived so we don't have a test that checks the correct sort based on *SignUpDate*.
 
